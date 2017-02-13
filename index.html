@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend Finder</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+
+
+<body>
+
+  <div class="container">
+    <div class="jumbotron" style="text-align: center;">
+      <h1>Friend Finder</h1>
+      <h3>Time to meet your new best friend</h3>
+      <hr>
+      <a href="/tables"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"></span>Find Friend Now</button></a>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p><a href="/api/friends">API Friends List</a> | <a href="https://github.com/afhaque/friendfinder">GitHub Repo</a></p>
+        </div>
+      </footer>
+  </div>
+  <script type="text/javascript">
+    $("#search-btn").on("click", function() {
+      var searchedCharacter = $("#character-search").val().trim();
+
+      searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
+
+      $.get("/api/" + searchedCharacter, function(data) {
+        console.log(data);
+        if (data) {
+          $("#stats").show();
+          $("#name").text(data.name);
+          $("#role").text(data.role);
+          $("#age").text(data.age);
+          $("#force-points").text(data.forcePoints);
+        }
+        else {
+          $("#name").text("The force is not strong with this one. Your character was not found.");
+          $("#stats").hide();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
