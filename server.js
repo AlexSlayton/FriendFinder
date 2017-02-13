@@ -18,7 +18,7 @@ app.use(bodyParser.json({ type: "application/vnd.api+json"}));
 var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'AlexJenn1',
+	password: '###',
 	database: 'friendFinder'
 });
 
@@ -50,14 +50,14 @@ app.get('/api/friendList', function(req, res) {
 });
 
 
-app.post('/makeReservation', function(req, res) {
-	connection.query('SELECT COUNT(unique_id) as count FROM tables', function(err, result) {
+app.post('/questions', function(req, res) {
+	connection.query('SELECT COUNT(unique_id) as count FROM friendList', function(err, result) {
 		if (err) {
 			throw err;
 		}
 		console.log(req.body);
 		if (parseInt(result[0].count) < 5) {
-			connection.query('INSERT INTO tables (nameFriend, photo, score, unique_id) VALUES (?, ?, ?, ?)', [req.body.name, req.body.phone, req.body.email, req.body.unique], function(err, insertResult) {
+			connection.query('INSERT INTO friendList (nameFriend, photo, score, unique_id) VALUES (?, ?, ?, ?)', [req.body.name, req.body.phone, req.body.email, req.body.unique], function(err, insertResult) {
 				res.send({friendList: "friendList"});
 			});
 		}
